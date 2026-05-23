@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discografía Oficial | ElCiaa</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-dark: #04060a;
+            --surface: rgba(18, 24, 38, 0.5);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00f2fe;
+            --accent-purple: #9b51e0;
+            --text-main: #f3f4f6;
+            --text-secondary: #9ca3af;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(at 50% 0%, rgba(155, 81, 224, 0.06) 0px, transparent 50%);
+            color: var(--text-main);
+            margin: 0; padding: 0; min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Navegación Superior */
+        nav {
+            background: rgba(11, 15, 24, 0.7);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--surface-border);
+            padding: 16px 40px; display: flex;
+            justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .btn-back {
+            display: flex; align-items: center; gap: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.95rem; font-weight: 600; transition: color 0.2s;
+        }
+        .btn-back:hover { color: var(--accent-cyan); }
+
+        .nav-title {
+            font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Contenedor Global */
+        .container {
+            max-width: 1100px; margin: 50px auto; padding: 0 20px; box-sizing: border-box;
+        }
+
+        header { text-align: center; margin-bottom: 60px; }
+        header h1 {
+            font-size: 3.2rem; font-weight: 900; margin: 0 0 12px 0; letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        header p { color: var(--text-secondary); font-size: 1.1rem; margin: 0; }
+
+        /* Grid Organizador de Lanzamientos */
+        .discography-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px;
+        }
+
+        /* Tarjeta de Lanzamiento Estilo Neón */
+        .release-card {
+            background: var(--surface); border: 1px solid var(--surface-border);
+            border-radius: 24px; padding: 24px; position: relative; overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .release-card:hover {
+            transform: translateY(-5px); border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 242, 254, 0.08);
+        }
+
+        /* Contenedor Visual de la Portada */
+        .cover-wrapper {
+            position: relative; width: 100%; padding-bottom: 100%;
+            border-radius: 16px; overflow: hidden; background: #080d16; margin-bottom: 22px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .cover-art {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #101424, #05070f);
+            transition: transform 0.5s ease;
+        }
+
+        .cover-art i { opacity: 0.08; transform: scale(2); position: absolute; color: #fff; }
+        
+        .cover-title-internal { 
+            font-size: 1.5rem; font-weight: 900; text-align: center; 
+            padding: 25px; z-index: 2; color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .release-card:hover .cover-art { transform: scale(1.04); }
+
+        /* Etiquetas Flotantes */
+        .badge {
+            position: absolute; top: 15px; right: 15px; z-index: 10;
+            font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 20px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            background: rgba(4, 6, 10, 0.8); backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: var(--accent-cyan);
+        }
+        .badge.album { color: #ff007f; border-color: rgba(255, 0, 127, 0.4); }
+
+        /* Metadatos */
+        .release-meta h3 { margin: 0 0 6px 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.3px; }
+        .release-meta .artist-sub { font-size: 0.95rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 4px; }
+        .release-meta .date { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 18px; font-weight: 500; }
+
+        /* Contenedor del listado de canciones internas */
+        .tracklist-box {
+            border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; margin-bottom: 24px; flex-grow: 1;
+        }
+        .track-row {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.9rem; padding: 8px 6px; color: var(--text-main);
+            border-radius: 8px; transition: background 0.2s;
+        }
+        .track-row:hover { background: rgba(255,255,255,0.02); }
+        .track-row span.num { color: var(--text-secondary); font-weight: 600; margin-right: 4px; }
+
+        /* Botón de Acción Principal */
+        .btn-action {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--surface-border); color: #fff; font-weight: 600;
+            text-decoration: none; font-size: 0.95rem; transition: all 0.3s; cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .release-card:hover .btn-action {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #04060a; border-color: transparent; font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.25);
+        }
+
+        .release-card:hover .btn-action.btn-album-mode {
+            background: linear-gradient(135deg, #ff007f, var(--accent-purple));
+            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="btn-back">
+            <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+            <span>Volver al perfil</span>
+        </a>
+        <div class="nav-title">Discografía</div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Discografía Oficial</h1>
+            <p>Explora los álbumes y sencillos de ElCiaa lanzados en plataformas</p>
+        </header>
+
+        <div class="discography-grid" id="discographyGrid"></div>
+    </div>
+
+    <script>
+        // Mapeo dinámico completo basado de manera exacta en tus documentos PDF cargados
+        const discografiaData = [
+            {
+                title: "Sin Destino Fijo",
+                artist: "ElCiaa",
+                type: "single",
+                date: "Debut • Mayo de 2026",
+                artistParam: "elciaa",
+                songParam: "sin-destino-fijo",
+                isAlbum: false,
+                tracks: [
+                    { name: "Sin Destino Fijo", info: "Pista Principal" }
+                ]
+            },
+            {
+                title: "Todo Es Feliz",
+                artist: "ElCiaa y MCx",
+                type: "single",
+                date: "Mayo de 2026",
+                artistParam: "elciaa-y-mcx",
+                songParam: "todo-es-feliz",
+                isAlbum: false,
+                tracks: [
+                    { name: "Todo Es Feliz", info: "Colaboración" }
+                ]
+            },
+            {
+                title: "Solo",
+                artist: "ElCiaa",
+                type: "single",
+                date: "Mayo de 2026",
+                artistParam: "elciaa",
+                songParam: "solo",
+                isAlbum: false,
+                tracks: [
+                    { name: "Solo", info: "Sencillo" }
+                ]
+            },
+            {
+                title: "Cuidado",
+                artist: "ElCiaa",
+                type: "álbum",
+                date: "Mayo de 2026",
+                artistParam: "elciaa",
+                songParam: "cuidado", // Apunta al álbum completo o buscador
+                isAlbum: true,
+                tracks: [
+                    { name: "Horizonte de Neón", info: "Track 01" },
+                    { name: "Concepción", info: "Track 02" },
+                    { name: "Sin Frenos", info: "Track 03" },
+                    { name: "Todo Es Feliz", info: "Track 04" }
+                ]
+            }
+        ];
+
+        const grid = document.getElementById('discographyGrid');
+
+        discografiaData.forEach(item => {
+            const card = document.createElement('div');
+            card.classList.add('release-card');
+            
+            // Renderizado condicional según el tipo de formato
+            const badgeClass = item.isAlbum ? 'badge album' : 'badge';
+            const buttonClass = item.isAlbum ? 'btn-action btn-album-mode' : 'btn-action';
+            const actionText = item.isAlbum ? 'Ver Álbum Completo' : 'Cantar en Karaoke';
+            const actionIcon = item.isAlbum ? 'layers' : 'mic';
+
+            card.innerHTML = `
+                <div class="${badgeClass}">${item.type}</div>
+                
+                <div class="cover-wrapper">
+                    <div class="cover-art">
+                        <i data-lucide="disc" style="width: 150px; height: 150px;"></i>
+                        <div class="cover-title-internal">${item.title}</div>
+                    </div>
+                </div>
+
+                <div class="release-meta">
+                    <div class="artist-sub">${item.artist}</div>
+                    <h3>${item.title}</h3>
+                    <div class="date">${item.date}</div>
+                </div>
+
+                <div class="tracklist-box">
+                    ${item.tracks.map((t, index) => `
+                        <div class="track-row">
+                            <div><span class="num">${String(index + 1).padStart(2, '0')}.</span> ${t.name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">${t.info}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <button class="${buttonClass}">
+                    <i data-lucide="${actionIcon}" style="width: 16px; height: 16px;"></i>
+                    <span>${actionText}</span>
+                </button>
+            `;
+
+            // Lógica de redirección parametrizada
+            card.querySelector('button').addEventListener('click', () => {
+                if (item.isAlbum) {
+                    // Redirige al buscador principal filtrando por el álbum o artista
+                    window.location.href = `home.html?search=${encodeURIComponent(item.title)}`;
+                } else {
+                    // Redirige directamente al reproductor de letras por query params
+                    window.location.href = `karaoke.html?artist=${item.artistParam}&song=${item.songParam}`;
+                }
+            });
+
+            grid.appendChild(card);
+        });
+
+        // Generar iconos vectoriales
+        lucide.createIcons();
+    </script>
+</body>
+</html>
