@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElCiaa | Sitio Oficial</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-dark: #04060a;
+            --surface: rgba(18, 24, 38, 0.45);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00f2fe;
+            --accent-purple: #9b51e0;
+            --text-main: #f3f4f6;
+            --text-secondary: #9ca3af;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fondo Animado con Efecto de Luces de Neón */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(0, 242, 254, 0.05) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(155, 81, 224, 0.07) 0px, transparent 50%);
+            overflow: hidden;
+        }
+
+        /* Partículas flotantes dinámicas */
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+            50% { transform: translateY(-40px) scale(1.2); opacity: 0.5; }
+        }
+
+        /* Tarjeta Principal del Artista */
+        .artist-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--surface-border);
+            padding: 50px 40px;
+            border-radius: 32px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Avatar / Logo de ElCiaa con pulso de neón */
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 25px auto;
+            position: relative;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--surface-border);
+            box-shadow: 0 0 25px rgba(155, 81, 224, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .avatar-container::after {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(8px);
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.98); opacity: 0.3; }
+            100% { transform: scale(1.04); opacity: 0.6; filter: blur(12px); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin: 0 0 15px 0;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin: 0 0 25px 0;
+        }
+
+        .sub-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        /* Listado Dinámico de Redes Sociales */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--surface-border);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Efectos interactivos individuales por red social */
+        .social-btn.instagram:hover {
+            background: rgba(225, 48, 108, 0.1);
+            border-color: #e1306c;
+            box-shadow: 0 0 20px rgba(225, 48, 108, 0.25);
+            transform: scale(1.02);
+        }
+
+        .social-btn.youtube:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.25);
+            transform: scale(1.02);
+        }
+
+        /* Estado deshabilitado para Spotify Próximamente */
+        .social-btn.spotify {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .social-btn-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tag-soon {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.08);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        /* Bloque de navegación final */
+        .footer-explore {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 25px;
+        }
+
+        .footer-explore p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+        }
+
+        .btn-hub {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #04060a;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn-hub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.4);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow" id="bgGlow"></div>
+
+    <div class="artist-card">
+        
+        <div class="avatar-container">
+            <div class="avatar">
+                <i data-lucide="mic" style="width: 40px; height: 40px; color: var(--accent-cyan);"></i>
+            </div>
+        </div>
+
+        <h1>ElCiaa</h1>
+        
+        <p>Soy ElCiaa, un artista que quiere crecer. Cada vez con tu apoyo, me motivo mucho más.</p>
+
+        <div class="sub-text">Mis redes sociales son las siguientes</div>
+
+        <div class="social-links">
+            <a href="https://www.instagram.com/elciaa_2026" target="_blank" class="social-btn instagram">
+                <div class="social-btn-inner">
+                    <i data-lucide="instagram" style="width: 20px; height: 20px;"></i>
+                    <span>Instagram</span>
+                </div>
+                <i data-lucide="arrow-up-right" style="width: 16px; height: 16px; opacity: 0.6;"></i>
+            </a>
+
+            <a href="https://www.youtube.com/@ElCiaa_2026" target="_blank" class="social-btn youtube">
+                <div class="social-btn-inner">
+                    <i data-lucide="youtube" style="width: 20px; height: 20px;"></i>
+                    <span>YouTube</span>
+                </div>
+                <i data-lucide="arrow-up-right" style="width: 16px; height: 16px; opacity: 0.6;"></i>
+            </a>
+
+            <a href="#" onclick="return false;" class="social-btn spotify">
+                <div class="social-btn-inner">
+                    <i data-lucide="music-3" style="width: 20px; height: 20px;"></i>
+                    <span>Spotify</span>
+                </div>
+                <span class="tag-soon">PRÓXIMAMENTE</span>
+            </a>
+        </div>
+
+        <div class="footer-explore">
+            <p>¿Quieres ver más de mi? Puedes ver mi discografía, artistas colaborados, filtradas y más.</p>
+            <a href="home.html" class="btn-hub">
+                <span>Entrar al Catálogo</span>
+                <i data-lucide="disc" style="width: 18px; height: 18px;"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Inicializar Iconos Vectoriales Lucide
+        lucide.createIcons();
+
+        // Generador Dinámico de Partículas de Fondo
+        const bgGlow = document.getElementById('bgGlow');
+        const totalParticles = 12;
+
+        for (let i = 0; i < totalParticles; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Tamaños y posiciones aleatorias para un look orgánico
+            const size = Math.random() * 6 + 4; // Entre 4px y 10px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.left = `${Math.random() * 100}%`;
+            
+            // Retraso de la animación aleatorio para que no se muevan al mismo tiempo
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particle.style.animationDuration = `${Math.random() * 6 + 6}s`;
+
+            bgGlow.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
